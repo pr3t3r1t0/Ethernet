@@ -36,40 +36,40 @@
 #include <SPI.h>
 #include <Ethernet.h>
 #include <SD.h>
-// size of buffer used to capture HTTP requests
+// tamaño del buffer usado para capturar solicitudes HTTP
 #define REQ_BUF_SZ   60
 
-// MAC address from Ethernet shield sticker under board
+// Dirección MAC de la etiqueta del Ethernet shield bajo la placa
 byte mac[] = { 0xD3, 0xAD, 0xB5, 0xAF, 0x05, 0xED };
-IPAddress ip(192, 168, 1, 177); // IP address, may need to change depending on network
-EthernetServer server(80);  // create a server at port 80
-File webFile;               // the web page file on the SD card
-char HTTP_req[REQ_BUF_SZ] = {0}; // buffered HTTP request stored as null terminated string
-char req_index = 0;              // index into HTTP_req buffer
-boolean LED_state[4] = {0}; // stores the states of the LEDs
+IPAddress ip(192, 168, 1, 177); // Dirección IP, puede necesitar cambiar según la red
+EthernetServer server(80);  // crear un servidor en el puerto 80
+File webFile;               // el archivo de página web en la tarjeta SD
+char HTTP_req[REQ_BUF_SZ] = {0}; // solicitud HTTP almacenada como cadena terminada en nulo
+char req_index = 0;              // índice into HTTP_req buffer
+boolean LED_state[4] = {0}; // almacena los estados de los LEDs
 
 void setup()
 {
-    // disable Ethernet chip
+    // deshabilitar chip Ethernet
     pinMode(10, OUTPUT);
     digitalWrite(10, HIGH);
     
-    Serial.begin(9600);       // for debugging
+    Serial.begin(9600);       // para depuración
     
-    // initialize SD card
-    Serial.println("Initializing SD card...");
+    // inicializar tarjeta SD
+    Serial.println("Inicializando tarjeta SD...");
     if (!SD.begin(4)) {
-        Serial.println("ERROR - SD card initialization failed!");
-        return;    // init failed
+        Serial.println("ERROR - ¡Falló la inicialización de la tarjeta SD!");
+        return;    // inicialización fallida
     }
-    Serial.println("SUCCESS - SD card initialized.");
-    // check for index.htm file
+    Serial.println("ÉXITO - Tarjeta SD inicializada.");
+    // verificar archivo index.htm
     if (!SD.exists("index.htm")) {
-        Serial.println("ERROR - Can't find index.htm file!");
-        return;  // can't find index file
+        Serial.println("ERROR - ¡No se puede encontrar el archivo index.htm!");
+        return;  // no se encuentra archivo índice
     }
-    Serial.println("SUCCESS - Found index.htm file.");
-    // switches on pins 2, 3 and 5
+    Serial.println("ÉXITO - Archivo index.htm encontrado.");
+    // interruptores en pines 2, 3 y 5
     pinMode(2, INPUT);
     pinMode(3, INPUT);
     pinMode(5, INPUT);
@@ -79,8 +79,8 @@ void setup()
     pinMode(8, OUTPUT);
     pinMode(9, OUTPUT);
     
-    Ethernet.begin(mac, ip);  // initialize Ethernet device
-    server.begin();           // start to listen for clients
+    Ethernet.begin(mac, ip);  // inicializar dispositivo Ethernet
+    server.begin();           // empezar a escuchar clientes
 }
 
 void loop()
@@ -154,55 +154,55 @@ void loop()
     } // end if (client)
 }
 
-// checks if received HTTP request is switching on/off LEDs
-// also saves the state of the LEDs
+// verifica si la solicitud HTTP recibida está encendiendo/apagando LEDs
+// también guarda el estado de los LEDs
 void SetLEDs(void)
 {
     // LED 1 (pin 6)
     if (StrContains(HTTP_req, "LED1=1")) {
-        LED_state[0] = 1;  // save LED state
+        LED_state[0] = 1;  // guardar estado LED
         digitalWrite(6, HIGH);
     }
     else if (StrContains(HTTP_req, "LED1=0")) {
-        LED_state[0] = 0;  // save LED state
+        LED_state[0] = 0;  // guardar estado LED
         digitalWrite(6, LOW);
     }
     // LED 2 (pin 7)
     if (StrContains(HTTP_req, "LED2=1")) {
-        LED_state[1] = 1;  // save LED state
+        LED_state[1] = 1;  // guardar estado LED
         digitalWrite(7, HIGH);
     }
     else if (StrContains(HTTP_req, "LED2=0")) {
-        LED_state[1] = 0;  // save LED state
+        LED_state[1] = 0;  // guardar estado LED
         digitalWrite(7, LOW);
     }
     // LED 3 (pin 8)
     if (StrContains(HTTP_req, "LED3=1")) {
-        LED_state[2] = 1;  // save LED state
+        LED_state[2] = 1;  // guardar estado LED
         digitalWrite(8, HIGH);
     }
     else if (StrContains(HTTP_req, "LED3=0")) {
-        LED_state[2] = 0;  // save LED state
+        LED_state[2] = 0;  // guardar estado LED
         digitalWrite(8, LOW);
     }
     // LED 4 (pin 9)
     if (StrContains(HTTP_req, "LED4=1")) {
-        LED_state[3] = 1;  // save LED state
+        LED_state[3] = 1;  // guardar estado LED
         digitalWrite(9, HIGH);
     }
     else if (StrContains(HTTP_req, "LED4=0")) {
-        LED_state[3] = 0;  // save LED state
+        LED_state[3] = 0;  // guardar estado LED
         digitalWrite(9, LOW);
     }
 }
 
-// send the XML file with analog values, switch status
-//  and LED status
+// enviar el archivo XML con valores analógicos, estado de interruptores
+// y estado de LEDs
 void XML_response(EthernetClient cl)
 {
-    int analog_val;            // stores value read from analog inputs
-    int count;                 // used by 'for' loops
-    int sw_arr[] = {2, 3, 5};  // pins interfaced to switches
+    int analog_val;            // almacena valor leído de entradas analógicas
+    int count;                 // usado por ciclos 'for'
+    int sw_arr[] = {2, 3, 5};  // pines conectados a interruptores
     
     cl.print("<?xml version = \"1.0\" ?>");
     cl.print("<inputs>");
@@ -266,7 +266,7 @@ void XML_response(EthernetClient cl)
     cl.print("</inputs>");
 }
 
-// sets every element of str to 0 (clears array)
+// establece cada elemento de str a 0 (limpia el arreglo)
 void StrClear(char *str, char length)
 {
     for (int i = 0; i < length; i++) {
@@ -274,9 +274,9 @@ void StrClear(char *str, char length)
     }
 }
 
-// searches for the string sfind in the string str
-// returns 1 if string found
-// returns 0 if string not found
+// busca la cadena sfind en la cadena str
+// devuelve 1 si se encuentra la cadena
+// devuelve 0 si no se encuentra la cadena
 char StrContains(char *str, char *sfind)
 {
     char found = 0;

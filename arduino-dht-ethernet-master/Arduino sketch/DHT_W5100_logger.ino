@@ -4,7 +4,7 @@
 #include <stdlib.h>
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 char server[] = "mysite.com";
-// Set the static IP address to use if the DHCP fails to assign
+// Establecer la dirección IP estática a usar si el DHCP falla en asignar
 IPAddress ip(192,168,1,11);
 EthernetClient client;
 dht DHT;
@@ -17,12 +17,12 @@ void setup() {
 void loop()
 {
 
-  // start the Ethernet connection:
+  // iniciar la conexión Ethernet:
   if (Ethernet.begin(mac) == 0) {
-    // try to congifure using IP address instead of DHCP:
+    // intentar configurar usando dirección IP en lugar de DHCP:
     Ethernet.begin(mac, ip);
   }
-  // give the Ethernet shield a second to initialize:
+  // dar un segundo al Ethernet shield para inicializarse:
   delay(1000);
   
   if (client.connect(server, 80)) {
@@ -46,17 +46,17 @@ void loop()
     client.println();
     client.println(PostData);
     
-    // wait
-    Serial.println("Will wait");
+    // esperar
+    Serial.println("Esperando");
     
 
   } 
   else {
-    Serial.println("Client not connected - could not send data.");
+    Serial.println("Cliente no conectado - no se pudieron enviar datos.");
   }
   
-  // if there are incoming bytes available 
-  // from the server, read them and print them:
+  // si hay bytes entrantes disponibles 
+  // del servidor, leerlos e imprimirlos:
   if (client.available()) {
     char c = client.read();
     Serial.print(c);
@@ -66,7 +66,7 @@ void loop()
   client.stop();
   delay(1800000); // 30 min = 1800000 ms
     
-  // if the server's disconnected, stop the client:
+  // si el servidor se ha desconectado, detener el cliente:
   //if (!client.connected()) {
   //  client.stop();
   //  // do nothing forevermore:
