@@ -28,24 +28,24 @@
 #include <SPI.h>
 #include <Ethernet.h>
 
-// MAC address from Ethernet shield sticker under board
+// Dirección MAC de la etiqueta del Ethernet shield bajo la placa
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(10, 0, 0, 20); // IP address, may need to change depending on network
-EthernetServer server(80);  // create a server at port 80
+IPAddress ip(10, 0, 0, 20); // Dirección IP, puede necesitar cambiar según la red
+EthernetServer server(80);  // crear un servidor en el puerto 80
 
-String HTTP_req;            // stores the HTTP request
+String HTTP_req;            // almacena la solicitud HTTP
 
 void setup()
 {
-    Ethernet.begin(mac, ip);  // initialize Ethernet device
-    server.begin();           // start to listen for clients
-    Serial.begin(9600);       // for diagnostics
-    pinMode(3, INPUT);        // switch is attached to Arduino pin 3
+    Ethernet.begin(mac, ip);  // inicializar dispositivo Ethernet
+    server.begin();           // empezar a escuchar clientes
+    Serial.begin(9600);       // para diagnósticos
+    pinMode(3, INPUT);        // interruptor conectado al pin 3 de Arduino
 }
 
 void loop()
 {
-    EthernetClient client = server.available();  // try to get client
+    EthernetClient client = server.available();  // intentar obtener cliente
 
     if (client) {  // got client?
         boolean currentLineIsBlank = true;
@@ -120,13 +120,13 @@ void loop()
     } // end if (client)
 }
 
-// send the state of the switch to the web browser
+// enviar el estado del interruptor al navegador web
 void GetSwitchState(EthernetClient cl)
 {
     if (digitalRead(3)) {
-        cl.println("Switch state: ON");
+        cl.println("Estado del interruptor: ENCENDIDO");
     }
     else {
-        cl.println("Switch state: OFF");
+        cl.println("Estado del interruptor: APAGADO");
     }
 }

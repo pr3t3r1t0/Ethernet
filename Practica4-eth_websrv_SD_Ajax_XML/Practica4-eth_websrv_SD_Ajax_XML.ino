@@ -41,43 +41,43 @@
 #include <Ethernet.h>
 #include <SD.h>
 
-// size of buffer used to capture HTTP requests
+// tamaño del buffer usado para capturar solicitudes HTTP
 #define REQ_BUF_SZ   50
 
-// MAC address from Ethernet shield sticker under board
+// Dirección MAC de la etiqueta del Ethernet shield bajo la placa
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip(192, 168, 1, 177); // IP address, may need to change depending on network
-EthernetServer server(80);  // create a server at port 80
-File webFile;               // the web page file on the SD card
-char HTTP_req[REQ_BUF_SZ] = {0}; // buffered HTTP request stored as null terminated string
-char req_index = 0;              // index into HTTP_req buffer
+IPAddress ip(192, 168, 1, 177); // Dirección IP, puede necesitar cambiar según la red
+EthernetServer server(80);  // crear un servidor en el puerto 80
+File webFile;               // el archivo de página web en la tarjeta SD
+char HTTP_req[REQ_BUF_SZ] = {0}; // solicitud HTTP almacenada como cadena terminada en nulo
+char req_index = 0;              // índice into HTTP_req buffer
 
 void setup()
 {
-    // disable Ethernet chip
+    // deshabilitar chip Ethernet
     pinMode(10, OUTPUT);
     digitalWrite(10, HIGH);
     
-    Serial.begin(9600);       // for debugging
+    Serial.begin(9600);       // para depuración
     
-    // initialize SD card
-    Serial.println("Initializing SD card...");
+    // inicializar tarjeta SD
+    Serial.println("Inicializando tarjeta SD...");
     if (!SD.begin(4)) {
-        Serial.println("ERROR - SD card initialization failed!");
-        return;    // init failed
+        Serial.println("ERROR - ¡Falló la inicialización de la tarjeta SD!");
+        return;    // inicialización fallida
     }
-    Serial.println("SUCCESS - SD card initialized.");
-    // check for index.htm file
+    Serial.println("ÉXITO - Tarjeta SD inicializada.");
+    // verificar archivo index.htm
     if (!SD.exists("index.htm")) {
-        Serial.println("ERROR - Can't find index.htm file!");
-        return;  // can't find index file
+        Serial.println("ERROR - ¡No se puede encontrar el archivo index.htm!");
+        return;  // no se encuentra archivo índice
     }
-    Serial.println("SUCCESS - Found index.htm file.");
-    pinMode(5, INPUT);        // switch is attached to Arduino pin 7
-    pinMode(6, INPUT);        // switch is attached to Arduino pin 8
+    Serial.println("ÉXITO - Archivo index.htm encontrado.");
+    pinMode(5, INPUT);        // interruptor conectado al pin 7 de Arduino
+    pinMode(6, INPUT);        // interruptor conectado al pin 8 de Arduino
     
-    Ethernet.begin(mac, ip);  // initialize Ethernet device
-    server.begin();           // start to listen for clients
+    Ethernet.begin(mac, ip);  // inicializar dispositivo Ethernet
+    server.begin();           // empezar a escuchar clientes
 }
 
 void loop()
@@ -149,7 +149,7 @@ void loop()
     } // end if (client)
 }
 
-// send the XML file with switch statuses and analog value
+// enviar el archivo XML con estados de interruptores y valor analógico
 void XML_response(EthernetClient cl)
 {
     int analog_val;
@@ -172,7 +172,7 @@ void XML_response(EthernetClient cl)
         cl.print("OFF");
     }
     cl.print("</button2>");
-    // read analog pin A0
+    // leer pin analógico A0
     analog_val = analogRead(0);
     cl.print("<analog1>");
     cl.print(analog_val);
@@ -180,7 +180,7 @@ void XML_response(EthernetClient cl)
     cl.print("</inputs>");
 }
 
-// sets every element of str to 0 (clears array)
+// establece cada elemento de str a 0 (limpia el arreglo)
 void StrClear(char *str, char length)
 {
     for (int i = 0; i < length; i++) {
@@ -188,9 +188,9 @@ void StrClear(char *str, char length)
     }
 }
 
-// searches for the string sfind in the string str
-// returns 1 if string found
-// returns 0 if string not found
+// busca la cadena sfind en la cadena str
+// devuelve 1 si se encuentra la cadena
+// devuelve 0 si no se encuentra la cadena
 char StrContains(char *str, char *sfind)
 {
     char found = 0;

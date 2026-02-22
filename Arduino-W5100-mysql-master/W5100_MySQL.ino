@@ -7,7 +7,7 @@ EthernetClient client;
 long randNumber;
 long previousMillis = 0;
 unsigned long currentMillis = 0;
-long interval = 5000; // READING INTERVAL
+long interval = 5000; // INTERVALO DE LECTURA
 
 float vol = 0;	
 float amp = 0;	
@@ -82,7 +82,7 @@ void loop()
 		client.stop();	
 	}
 
-	delay(300000); // WAIT FIVE MINUTES BEFORE SENDING AGAIN
+	delay(300000); // ESPERAR CINCO MINUTOS ANTES DE ENVIAR DE NUEVO
 }
 
 
