@@ -2,7 +2,7 @@
 #include <Ethernet.h>
 
 // ── Configuración de red ──────────────────────────────────
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+byte mac[] = { 0xDE, 0xAD, 0xAE, 0xEF, 0xF0, 0xED };
 IPAddress ip(192, 168, 1, 177);
 EthernetServer webServer(80);
 EthernetClient conexion;
@@ -49,6 +49,49 @@ void setup() {
   Ethernet.begin(mac, ip);
   webServer.begin();
 
+   delay(2000); // Esperar que el shield arranque completamente
+
+  Serial.println("=== DIAGNÓSTICO ETHERNET ===");
+
+  // 1. Verificar hardware
+  Ethernet.begin(mac, ip);
+  
+  switch (Ethernet.hardwareStatus()) {
+    case EthernetNoHardware:
+      Serial.println("ERROR: Shield no encontrado");
+      break;
+    case EthernetW5100:
+      Serial.println("Hardware: W5100 detectado");
+      break;
+    case EthernetW5200:
+      Serial.println("Hardware: W5200 detectado");
+      break;
+    case EthernetW5500:
+      Serial.println("Hardware: W5500 detectado");
+      break;
+    default:
+      Serial.println("Hardware: Desconocido");
+  }
+
+  // 2. Verificar cable
+  switch (Ethernet.linkStatus()) {
+    case LinkON:
+      Serial.println("Cable: Conectado ✓");
+      break;
+    case LinkOFF:
+      Serial.println("Cable: NO conectado ✗");
+      break;
+    case Unknown:
+      Serial.println("Cable: Estado desconocido");
+      break;
+  }
+
+  // 3. Mostrar IP
+  Serial.print("IP obtenida: ");
+  Serial.println(Ethernet.localIP());
+
+  webServer.begin();
+  
   Serial.print("Servidor en: ");
   Serial.println(Ethernet.localIP());
 }
