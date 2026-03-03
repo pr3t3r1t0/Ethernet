@@ -48,6 +48,13 @@ void enviarPagina(EthernetClient client) {
   client.println("<button type='submit' formaction='btAzul'     style='width:250px;height:80px;font-size:25px;color:blue;margin:8px'><b>AZUL</b></button><br>");
   client.println("<button type='submit' formaction='btAmarillo' style='width:250px;height:80px;font-size:25px;color:orange;margin:8px'><b>AMARILLO</b></button><br>");
   client.println("<button type='submit' formaction='btBlanco'   style='width:250px;height:80px;font-size:25px;margin:8px'><b>BLANCO</b></button><br>");
+  client.println("<button type='submit' formaction='btCian'     style='width:250px;height:80px;font-size:25px;color:#00FFFF;margin:8px'><b>CIAN</b></button><br>");
+  client.println("<button type='submit' formaction='btMagenta'  style='width:250px;height:80px;font-size:25px;color:#FF00FF;margin:8px'><b>MAGENTA</b></button><br>");
+  client.println("<button type='submit' formaction='btNaranja'  style='width:250px;height:80px;font-size:25px;color:#FF5500;margin:8px'><b>NARANJA</b></button><br>");
+  client.println("<button type='submit' formaction='btMorado'   style='width:250px;height:80px;font-size:25px;color:#8000FF;margin:8px'><b>MORADO</b></button><br>");
+  client.println("<button type='submit' formaction='btRosa'     style='width:250px;height:80px;font-size:25px;color:#FF1493;margin:8px'><b>ROSA</b></button><br>");
+  client.println("<button type='submit' formaction='btTurquesa' style='width:250px;height:80px;font-size:25px;color:#40E0D0;margin:8px'><b>TURQUESA</b></button><br>");
+  client.println("<button type='submit' formaction='btLima'     style='width:250px;height:80px;font-size:25px;color:#32CD32;margin:8px'><b>LIMA</b></button><br>");
   client.println("<hr style='border-color:#555;margin:15px 0'>");
   client.println("<button type='submit' formaction='btArcoiris' style='width:250px;height:60px;font-size:20px;margin:8px'><b>ARCOIRIS</b></button><br>");
   client.println("<button type='submit' formaction='btApagar'   style='width:250px;height:60px;font-size:20px;margin:8px'><b>APAGAR</b></button><br>");
